@@ -1,11 +1,14 @@
 package br.com.tasklist.domains;
 
+import br.com.tasklist.domains.enums.Status;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -16,16 +19,49 @@ public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private boolean status;
+
+    @NotEmpty(message = "O campo titulo é obrigatório")
+    @Size(min=3,max=100, message = "O campo titulo deve conter no minimo 3 e no máximo 100 caracteres")
+    private String title;
+
+    @NotEmpty(message = "O campo status é obrigatório")
+    private String status;
+
     private String description;
     @CreatedDate
-    private Date createdAt;
+    @Column(name="created_at")
+    private LocalDate createdAt;
     @LastModifiedDate
-    private Date updatedAt;
+    @Column(name="updated_at")
+    private LocalDate updatedAt;
     @LastModifiedDate
-    private Date removedAt;
+    @Column(name="removed_at")
+    private LocalDate removedAt;
     @LastModifiedDate
-    private Date conclusionAt;
+    @Column(name="conclusion_at")
+    private LocalDate conclusionAt;
+
+    public Task() {
+
+    }
+
+    public Task(Integer id,
+                String title,
+                Status status,
+                String description,
+                LocalDate createdAt,
+                LocalDate updatedAt,
+                LocalDate removedAt,
+                LocalDate conclusionAt) {
+        this.id = id;
+        this.title = title;
+        this.status = status.getDescription();
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.removedAt = removedAt;
+        this.conclusionAt = conclusionAt;
+    }
 
     public Integer getId() {
         return id;
@@ -35,11 +71,19 @@ public class Task implements Serializable {
         this.id = id;
     }
 
-    public boolean isStatus() {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -51,35 +95,35 @@ public class Task implements Serializable {
         this.description = description;
     }
 
-    public Date getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public LocalDate getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public Date getRemovedAt() {
+    public LocalDate getRemovedAt() {
         return removedAt;
     }
 
-    public void setRemovedAt(Date removedAt) {
+    public void setRemovedAt(LocalDate removedAt) {
         this.removedAt = removedAt;
     }
 
-    public Date getConclusionAt() {
+    public LocalDate getConclusionAt() {
         return conclusionAt;
     }
 
-    public void setConclusionAt(Date conclusionAt) {
+    public void setConclusionAt(LocalDate conclusionAt) {
         this.conclusionAt = conclusionAt;
     }
 
