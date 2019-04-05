@@ -17,6 +17,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
+    @CrossOrigin
     @RequestMapping(value="/tasks", method=RequestMethod.GET)
     public ResponseEntity<List<Task>> findAll() {
         List<Task> tasks = taskService.findAll();
@@ -24,6 +25,7 @@ public class TaskController {
         return ResponseEntity.ok().body(tasks);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/tasks", method=RequestMethod.POST)
     public ResponseEntity<Task> insert(@Valid @RequestBody Task task) {
         Task obj = taskService.save(task);
@@ -37,6 +39,7 @@ public class TaskController {
         return ResponseEntity.created(uri).body(obj);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/tasks/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Task> update(@Valid @RequestBody Task task, @PathVariable Integer id) {
         task = taskService.update(id, task);
@@ -44,12 +47,11 @@ public class TaskController {
         return ResponseEntity.ok().body(task);
     }
 
+    @CrossOrigin
     @RequestMapping(value="/tasks/{id}", method=RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         taskService.delete(id);
 
         return ResponseEntity.noContent().build();
     }
-
-
 }

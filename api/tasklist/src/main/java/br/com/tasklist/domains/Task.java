@@ -1,6 +1,5 @@
 package br.com.tasklist.domains;
 
-import br.com.tasklist.domains.enums.Status;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -23,10 +22,7 @@ public class Task implements Serializable {
     @NotEmpty(message = "O campo titulo é obrigatório")
     @Size(min=3,max=100, message = "O campo titulo deve conter no minimo 3 e no máximo 100 caracteres")
     private String title;
-
-    @NotEmpty(message = "O campo status é obrigatório")
-    private String status;
-
+    private boolean status;
     private String description;
     @CreatedDate
     @Column(name="created_at")
@@ -47,7 +43,7 @@ public class Task implements Serializable {
 
     public Task(Integer id,
                 String title,
-                Status status,
+                boolean status,
                 String description,
                 LocalDate createdAt,
                 LocalDate updatedAt,
@@ -55,7 +51,7 @@ public class Task implements Serializable {
                 LocalDate conclusionAt) {
         this.id = id;
         this.title = title;
-        this.status = status.getDescription();
+        this.status = status;
         this.description = description;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -79,11 +75,11 @@ public class Task implements Serializable {
         this.title = title;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

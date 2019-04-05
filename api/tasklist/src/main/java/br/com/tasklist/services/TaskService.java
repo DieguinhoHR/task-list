@@ -40,7 +40,7 @@ public class TaskService {
         Task obj = find(id);
 
         obj.setTitle(task.getTitle());
-        obj.setStatus(task.getStatus());
+        obj.setStatus(task.isStatus());
         obj.setDescription(task.getDescription());
 
         LocalDate date = LocalDate.now(); // gets the current date
@@ -57,6 +57,6 @@ public class TaskService {
 
         obj.setRemovedAt(date);
 
-        taskRepository.save(obj);
+        taskRepository.delete(obj);
     }
 }
